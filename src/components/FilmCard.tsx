@@ -1,5 +1,10 @@
+"use client";
+
 import type { Film } from "@/lib/data";
 import Link from "next/link";
+
+const YOUTUBE_THUMB = (videoId: string) =>
+  `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
 type FilmCardProps = {
   film: Film;
@@ -8,6 +13,10 @@ type FilmCardProps = {
 
 export default function FilmCard({ film, variant = "default" }: FilmCardProps) {
   const href = `/films/${film.id}`;
+  const trailerUrl = film.youtubeVideoId
+    ? `https://www.youtube.com/watch?v=${film.youtubeVideoId}`
+    : film.trailerUrl;
+  const posterSrc = film.poster ?? (film.youtubeVideoId ? YOUTUBE_THUMB(film.youtubeVideoId) : null);
 
   if (variant === "compact") {
     return (
@@ -16,8 +25,8 @@ export default function FilmCard({ film, variant = "default" }: FilmCardProps) {
         className="group flex gap-4 rounded-xl border border-[var(--border)] bg-[var(--card)] p-4 transition-all hover:border-amber/30 card-glow"
       >
         <div className="h-20 w-28 shrink-0 overflow-hidden rounded-lg poster-placeholder">
-          {film.poster ? (
-            <img src={film.poster} alt="" className="h-full w-full object-cover" />
+          {posterSrc ? (
+            <img src={posterSrc} alt="" className="h-full w-full object-cover" />
           ) : (
             <span className="text-2xl">🎬</span>
           )}
@@ -41,8 +50,8 @@ export default function FilmCard({ film, variant = "default" }: FilmCardProps) {
       className="group block overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)] transition-all hover:border-amber/30 card-glow"
     >
       <div className="aspect-[2/3] w-full overflow-hidden poster-placeholder relative">
-        {film.poster ? (
-          <img src={film.poster} alt="" className="h-full w-full object-cover transition-transform group-hover:scale-105" />
+        {posterSrc ? (
+          <img src={posterSrc} alt="" className="h-full w-full object-cover transition-transform group-hover:scale-105" />
         ) : (
           <span className="text-6xl">🎬</span>
         )}
@@ -64,7 +73,19 @@ export default function FilmCard({ film, variant = "default" }: FilmCardProps) {
         <p className="mt-1 text-sm text-zinc-400">{film.releaseDate}</p>
         <p className="mt-1 text-sm text-zinc-500">{film.genre}</p>
         <div className="mt-3 flex gap-2">
-          <span className="rounded bg-amber/15 px-2 py-1 text-xs text-amber">Трейлер</span>
+          {trailerUrl ? (
+            <a
+              href={trailerUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded bg-amber/15 px-2 py-1 text-xs text-amber hover:bg-amber/25"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Трейлер
+            </a>
+          ) : (
+            <span className="rounded bg-amber/15 px-2 py-1 text-xs text-amber">Трейлер</span>
+          )}
           <span className="rounded bg-white/10 px-2 py-1 text-xs text-zinc-400">Подробнее</span>
         </div>
       </div>

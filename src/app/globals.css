@@ -77,4 +77,8 @@ body {
     background: linear-gradient(to bottom right, rgba(245, 158, 11, 0.2), rgba(249, 115, 22, 0.1));
     color: rgba(245, 158, 11, 0.6);
   }
+
+  .input {
+    @apply w-full rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-white placeholder-zinc-500 focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber;
+  }
 }

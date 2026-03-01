@@ -1,7 +1,19 @@
+"use client";
+
 import type { NewsItem } from "@/lib/data";
+import type { Lang } from "@/lib/data";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { getNewsTitle, getNewsExcerpt } from "@/lib/data";
 
 export default function NewsCard({ item }: { item: NewsItem }) {
+  const { lang } = useLanguage();
+  const title = getNewsTitle(item, lang);
+  const excerpt = getNewsExcerpt(item, lang);
+
+  const readMore = { ru: "Читать далее →", kz: "Оқу →", en: "Read more →" };
+  const commentsLabel = { ru: "комментариев", kz: "пікір", en: "comments" };
+
   return (
     <article className="rounded-xl border border-[var(--border)] bg-[var(--card)] overflow-hidden transition-all hover:border-amber/30 card-glow">
       <Link href={`/news/${item.slug}`} className="block">
@@ -15,15 +27,15 @@ export default function NewsCard({ item }: { item: NewsItem }) {
         <div className="p-4">
           <time className="text-sm text-zinc-500">{item.date}</time>
           <h3 className="mt-1 font-semibold text-white hover:text-amber transition-colors line-clamp-2">
-            {item.title}
+            {title}
           </h3>
-          <p className="mt-2 text-sm text-zinc-400 line-clamp-2">{item.excerpt}</p>
+          <p className="mt-2 text-sm text-zinc-400 line-clamp-2">{excerpt}</p>
           <p className="mt-2 text-sm text-amber">
-            Читать далее →
+            {readMore[lang]}
           </p>
           {item.commentsCount > 0 && (
             <p className="mt-1 text-xs text-zinc-500">
-              {item.commentsCount} комментариев
+              {item.commentsCount} {commentsLabel[lang]}
             </p>
           )}
         </div>

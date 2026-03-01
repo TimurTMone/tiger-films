@@ -1,8 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const footerLinks = [
   { href: "/", label: "Главная" },
   { href: "/films", label: "Наши фильмы" },
+  { href: "/about", label: "О компании" },
   { href: "/team", label: "Команда" },
   { href: "/news", label: "Новости" },
   { href: "/cooperation", label: "Сотрудничество" },
@@ -15,12 +17,14 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-3">
           <div>
-            <Link href="/" className="inline-flex items-center gap-2">
-              <span className="text-xl font-bold">
-                <span className="text-[var(--amber)]">Tiger</span>
-                <span className="text-white"> Films</span>
-              </span>
-              <span className="text-[var(--amber)]">🐯</span>
+            <Link href="/" className="inline-flex items-center">
+              <Image
+                src="/tiger-films-logo.png"
+                alt="Tiger Films"
+                width={160}
+                height={48}
+                className="h-10 w-auto sm:h-11"
+              />
             </Link>
             <p className="mt-3 max-w-xs text-sm text-zinc-400">
               Продюсерская компания, основанная в 2021 году на базе кинотеатров Kinopark-Kinoplexx Theatres для производства полнометражных фильмов.

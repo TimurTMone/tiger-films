@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { films, searchFilms } from "@/lib/data";
+import { films, trailers, searchFilms } from "@/lib/data";
 import FilmCard from "@/components/FilmCard";
+import TrailerCard from "@/components/TrailerCard";
 
 export default function FilmsPage() {
   const [query, setQuery] = useState("");
@@ -15,7 +16,30 @@ export default function FilmsPage() {
         Полнометражные фильмы Tiger Films. Поиск по названию и жанру.
       </p>
 
+      {/* Trailers from YouTube @kztigerfilms */}
+      <section className="mt-10">
+        <h2 className="text-xl font-bold text-white">Трейлеры</h2>
+        <p className="mt-1 text-sm text-zinc-500">
+          Официальные трейлеры с канала{" "}
+          <a
+            href="https://www.youtube.com/@kztigerfilms/videos"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-amber hover:underline"
+          >
+            Tiger Films на YouTube
+          </a>
+        </p>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {trailers.map((trailer) => (
+            <TrailerCard key={`${trailer.videoId}-${trailer.title}`} trailer={trailer} />
+          ))}
+        </div>
+      </section>
+
       {/* Поиск */}
+      <section className="mt-14">
+        <h2 className="text-xl font-bold text-white">Каталог фильмов</h2>
       <div className="mt-8">
         <label htmlFor="film-search" className="sr-only">Поиск фильмов</label>
         <div className="relative">
@@ -54,6 +78,7 @@ export default function FilmsPage() {
           </div>
         )}
       </div>
+      </section>
     </div>
   );
 }

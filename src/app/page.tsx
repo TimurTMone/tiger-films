@@ -1,17 +1,32 @@
 import Link from "next/link";
-import { films, newsItems } from "@/lib/data";
+import { films, newsItems, trailers } from "@/lib/data";
 import FilmCard from "@/components/FilmCard";
 import NewsCard from "@/components/NewsCard";
+import TrailerCard from "@/components/TrailerCard";
 
 const newReleases = films.filter((f) => f.isNew).slice(0, 5);
 const latestNews = newsItems.slice(0, 3);
+const featuredTrailers = trailers.slice(0, 4);
 
 export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative hero-gradient hero-gradient-warm grid-cinema overflow-hidden">
-        <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
+      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden hero-gradient">
+        {/* YouTube background video */}
+        <div className="absolute inset-0 z-0">
+          <iframe
+            title="Hero background"
+            src="https://www.youtube.com/embed/JHcSDqF7Nzc?autoplay=1&mute=1&loop=1&playlist=JHcSDqF7Nzc&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+            className="absolute left-1/2 top-1/2 min-h-[100vh] min-w-[177.78vh] w-[100vw] h-[56.25vw] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-black/60 hero-gradient-warm" aria-hidden />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8 w-full">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
               <span className="text-white">Создаём кино</span>
@@ -45,10 +60,28 @@ export default function HomePage() {
               Все фильмы →
             </Link>
           </div>
-          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          {/* Трейлеры с YouTube */}
+          <p className="mt-2 text-zinc-500">
+            Трейлеры с канала{" "}
+            <a href="https://www.youtube.com/@kztigerfilms/videos" target="_blank" rel="noopener noreferrer" className="text-amber hover:underline">
+              Tiger Films
+            </a>
+          </p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {featuredTrailers.map((trailer) => (
+              <TrailerCard key={`${trailer.videoId}-${trailer.title}`} trailer={trailer} />
+            ))}
+          </div>
+          <p className="mt-6 text-lg font-semibold text-white">Фильмы</p>
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {newReleases.map((film) => (
               <FilmCard key={film.id} film={film} />
             ))}
+          </div>
+          <div className="mt-8 flex justify-center">
+            <Link href="/films" className="btn-secondary">
+              Все фильмы и трейлеры
+            </Link>
           </div>
         </div>
       </section>
@@ -64,9 +97,15 @@ export default function HomePage() {
                 Kinopark-Kinoplexx Theatres в целях производства полнометражных фильмов. 
                 Мы снимаем комедии, драмы и семейное кино для зрителей Казахстана и СНГ.
               </p>
-              <Link href="/cooperation" className="mt-6 inline-block text-amber font-medium hover:underline">
-                Узнать о сотрудничестве →
-              </Link>
+              <div className="mt-6 flex flex-wrap items-center gap-2">
+                <Link href="/about" className="text-amber font-medium hover:underline">
+                  О компании и команде →
+                </Link>
+                <span className="text-zinc-600">|</span>
+                <Link href="/cooperation" className="text-amber font-medium hover:underline">
+                  Сотрудничество →
+                </Link>
+              </div>
             </div>
             <div className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-8">
               <h3 className="text-lg font-semibold text-white">Партнёр</h3>
