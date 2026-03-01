@@ -10,7 +10,12 @@ const inter = Inter({
   subsets: ["latin", "cyrillic"],
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://tigerfilms.kz");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Tiger Films — Продюсерская компания | Кино Казахстан",
   description: "Tiger Films — продюсерская компания на базе Kinopark. Полнометражные фильмы, новости кино, база актёров и команда.",
   keywords: "Tiger Films, кино Казахстан, продюсерская компания, фильмы, Kinopark",
@@ -19,9 +24,26 @@ export const metadata: Metadata = {
     apple: "/tiger-films-logo.png",
   },
   openGraph: {
-    title: "Tiger Films",
-    description: "Продюсерская компания. Наши фильмы, команда, новости.",
-    images: ["/tiger-films-logo.png"],
+    type: "website",
+    locale: "ru_RU",
+    url: siteUrl,
+    siteName: "Tiger Films",
+    title: "Tiger Films — Продюсерская компания",
+    description: "Продюсерская компания на базе Kinopark. Наши фильмы, команда, новости кино Казахстана.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Tiger Films — Продюсерская компания",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tiger Films — Продюсерская компания",
+    description: "Продюсерская компания на базе Kinopark. Наши фильмы, команда, новости кино Казахстана.",
   },
 };
 
