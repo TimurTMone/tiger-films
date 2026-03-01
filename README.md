@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tiger Films — ребрендинг сайта
 
-## Getting Started
+Сайт продюсерской компании [Tiger Films](https://tigerfilms.kz) — кинокомпания, база актёров, каталог фильмов, команда, новости с комментариями.
 
-First, run the development server:
+## Требования
+
+- **Node.js 20.9+** (рекомендуется 20 LTS или 22). Next.js 16 требует Node >= 20.9.0.
+
+## Запуск
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Откройте [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Сборка:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Реализованные разделы
 
-To learn more about Next.js, take a look at the following resources:
+| Раздел | Описание |
+|--------|----------|
+| **Главная** | Hero, новинки, о компании, последние новости |
+| **Наши фильмы** | Каталог с **поиском** по названию и жанру, карточки фильмов |
+| **Фильм (страница)** | Детальная карточка: постер, дата, жанр, язык, возраст |
+| **Команда** | **Выбор по ролям**: режиссёры, операторы, художники + сводка всей команды |
+| **База актёров** | **Поиск** по базе (заглушка под результаты) + **форма сбора данных**: ФИО, email, телефон, дата рождения, рост, роли, опыт, ссылки на фото и видео |
+| **Новости** | Лента новостей |
+| **Новость (страница)** | Полный текст + **комментарии** (список и форма добавления) |
+| **Сотрудничество** | Условия для режиссёров, актёров, партнёров |
+| **Контакты** | Адрес, email, телефон, партнёры |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Дизайн и UX/UI
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Тёмная кинематографичная тема (фон `#0c0c0f`), акценты **янтарный/золотой** (Tiger) и **коралловый**.
+- Hero с градиентом и лёгкой сеткой, карточки с подсветкой при наведении.
+- Адаптивная вёрстка, мобильное меню, удобные формы и кнопки.
+- Многоязычность: переключатель Русский / Қазақ / English (в навигации).
 
-## Deploy on Vercel
+## Референсы (по запросу)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **США**: [Lokus Films](https://lokusfilms.com), [Filmclusive Studio](https://studio.filmclusive.com) — видеогалереи, блог, конверсия.
+- **РФ**: [Мосфильм](https://mosfilm.ru), [Ленфильм](https://lenfilm.ru), [Горький фильм](https://gorkyfilm.ru) — каталог, новости, услуги студий.
+- **Корея**: [CJ ENM](https://www.cjenm.com/en/film/) — чёткая навигация, портфолио фильмов.
+- **Китай**: Alibaba Pictures — корпоративный стиль, контент и технологии.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Стек
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS 4
+
+Данные пока в `src/lib/data.ts` (мок). Для продакшена можно подключить CMS или API.
