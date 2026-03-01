@@ -3,6 +3,7 @@
 import type { NewsItem } from "@/lib/data";
 import type { Lang } from "@/lib/data";
 import Link from "next/link";
+import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { getNewsTitle, getNewsExcerpt } from "@/lib/data";
 
@@ -17,11 +18,19 @@ export default function NewsCard({ item }: { item: NewsItem }) {
   return (
     <article className="rounded-xl border border-[var(--border)] bg-[var(--card)] overflow-hidden transition-all hover:border-amber/30 card-glow">
       <Link href={`/news/${item.slug}`} className="block">
-        <div className="aspect-video w-full poster-placeholder">
+        <div className="relative aspect-video w-full bg-[var(--card-hover)]">
           {item.image ? (
-            <img src={item.image} alt="" className="h-full w-full object-cover" />
+            <Image
+              src={item.image}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
           ) : (
-            <span className="text-4xl">📰</span>
+            <div className="flex h-full w-full items-center justify-center poster-placeholder">
+              <span className="text-4xl">📰</span>
+            </div>
           )}
         </div>
         <div className="p-4">

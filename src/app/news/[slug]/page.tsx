@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { notFound } from "next/navigation";
 import { getNewsBySlug, getNewsTitle, getNewsExcerpt, getNewsBody } from "@/lib/data";
@@ -31,6 +32,18 @@ export default function NewsSlugPage() {
       <article className="mt-8">
         <time className="text-zinc-500">{news.date}</time>
         <h1 className="mt-2 text-3xl font-bold text-white">{title}</h1>
+        {news.image && (
+          <div className="relative mt-6 aspect-video w-full overflow-hidden rounded-xl bg-[var(--card-hover)]">
+            <Image
+              src={news.image}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 896px"
+              priority
+            />
+          </div>
+        )}
         {body && (
           <div className="mt-6 prose prose-invert max-w-none">
             <p className="text-zinc-300 leading-relaxed whitespace-pre-line">{body}</p>

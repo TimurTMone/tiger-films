@@ -770,6 +770,7 @@ export const newsItems: NewsItem[] = [
     slug: "kadet-oscar",
     commentsCount: 12,
     sourceUrl: "https://tigerfilms.kz/blog19/",
+    image: "https://picsum.photos/seed/kadet-oscar/800/450",
   },
   {
     id: "n2",
@@ -786,6 +787,7 @@ export const newsItems: NewsItem[] = [
     slug: "premjera-almaty",
     commentsCount: 8,
     sourceUrl: "https://tigerfilms.kz/blog18/",
+    image: "https://picsum.photos/seed/premjera-almaty/800/450",
   },
   {
     id: "n3",
@@ -795,13 +797,14 @@ export const newsItems: NewsItem[] = [
     excerptKz: "Tiger Films продюсерлік компаниясы приключениелік комедияны таныстырды. Премьера Алматыдағы HALYK IMAX Kinopark 16-да. Қазақстан мен Таиландта түсірілді.",
     titleEn: "Comedy «Island. Unforgettable Journey» Released in Theatres",
     excerptEn: "Tiger Films presented an adventure comedy. Premiere at HALYK IMAX Kinopark 16 in Almaty. Filmed in Kazakhstan and Thailand.",
-    bodyRu: "Продюсерская компания Tiger Films представила новую приключенческую комедию «Остров. Ұмытылмас саяхат». Премьера прошла в крупнейшем кинозале Центральной Азии HALYK IMAX Kinopark 16 в Алматы. Съёмки проходили в Казахстане и Таиланде. На показе побывала корреспондент «24KZ».\n\nВ центре сюжета — Жомарт и Камила. После того как бывший директор строительной компании обвинил их в крупном воровстве государственных средств, герои отправляются в Таиланд, чтобы доказать свою невиновность. Их ждут опасные приключения — от ядовитых насекомых до встреч с местными бандитами.\n\nМерей Махан, режиссёр: «Через эту комедию мы хотели показать важные проблемы общества. В фильме есть моменты, когда в новостях или соцсетях говорят о коррупции. Здесь много захватывающих поворотов сюжета.» Большая часть съёмок прошла на острове Самуи. Фильм длится 70 минут. «Остров. Ұмытылмас саяхат» идёт в кинотеатрах сети Kinopark и Kinoplexx по всей стране.\n\nАвторы: Алия Феликскызы, Абен Нарынбаев. Источник: 24.kz",
+    bodyRu: "Продюсерская компания Tiger Films представила новую приключенческую комедию «Остров. Ұмытылмас саяхат». Премьера прошла в крупнейшем кинозале Центральной Азии HALYK IMAX Kinopark 16 в Алматы. Съёмки проходили в Казахстане и Таиланде. На показе побывала корреспондент «24KZ».\n\nВ центре сюжета — Жомарт и Камила. После того как бывший директор строительной компании обвинил их в крупном воровстве государственных средств, герои отправляются в Таиланд, чтобы доказать свою невиновность. Их ждут опасные приключения — от ядовитых насекомых до встреч с местными бандитами.\n\nМерей Махан, режиссёр: «Через эту комедию мы хотели показать важные проблемы общества. В фильме есть моменты, когда в новостях или соцсетях говорят о коррупции. Здесь много захватывающих поворотов сюжета.»\n\nБольшая часть съёмок прошла на острове Самуи. Актёрам пришлось преодолевать не только физические, но и психологические трудности.\n\nМадина Оспан, актриса: «Физически съёмки были несложные, но морально давались тяжело. Были сцены со змеями, скорпионами и пауками — я их очень боюсь.»\n\nГостей премьеры встретили шоу-программой и тортом высотой полтора метра. Все шесть ярусов выполнены в тематике фильма.\n\nКсения Беккер, руководитель отдела маркетинга кондитерского дома Kulikov: «При создании торта мы вдохновлялись афишей фильма «Остров». Здесь можно увидеть главных героев, денежный чемодан, пальмы — всё, что связано с сюжетом.»\n\nФильм длится 70 минут. Это не просто комедия, а история о поиске справедливости. Сумеют ли Жомарт и Камила её найти? Узнать можно уже сегодня — «Остров. Ұмытылмас саяхат» идёт в кинотеатрах сети Kinopark и Kinoplexx по всей стране.\n\nАвторы: Алия Феликскызы, Абен Нарынбаев. Источник: 24.kz",
     bodyKz: "Tiger Films продюсерлік компаниясы «Арал. Ұмытылмас саяхат» жаңа приключениелік комедияны таныстырды. Премьера Алматыдағы Орта Азияның ең үлкен HALYK IMAX Kinopark 16 кинотеатрында өтті. Түсірілім Қазақстан мен Таиландта өтті.\n\nСюжеттің ортасында Жомарт пен Камила бар. Құрылыс компаниясының бұрыңғы директоры оларды мемлекеттік қаражатты үлкен ұрлықта айыптағаннан кейін кейіпкерлер кінәсіздігін дәлелдеу үшін Таиландқа жол тартады. Оларды улы жәндіктерден жергілікті бандиттермен кездесуге дейін қауіпті приключениелер күтеді.\n\nРежиссер Мерей Махан: «Бұл комедия арқылы қоғамның маңызды мәселелерін көрсеткіміз келді.» Түсірілімнің көп бөлігі Самуи аралында өтті. Фильм 70 минутқа созылады. Kinopark және Kinoplexx желісінде бүкіл ел бойынша көрсетілуде.",
     bodyEn: "Tiger Films presented the new adventure comedy «Island. Unforgettable Journey». The premiere took place at Central Asia's largest cinema, HALYK IMAX Kinopark 16 in Almaty. Filming was done in Kazakhstan and Thailand.\n\nAt the centre of the story are Zhomart and Kamila. After a former construction company director accuses them of large-scale embezzlement of state funds, the characters travel to Thailand to prove their innocence. They face dangerous adventures—from poisonous insects to run-ins with local gangsters.\n\nDirector Merey Makhan: «Through this comedy we wanted to show important issues in society.» Most of the filming took place on Koh Samui. The film runs 70 minutes. «Island. Unforgettable Journey» is now showing in Kinopark and Kinoplexx theatres nationwide.\n\nSource: 24.kz",
     date: "2025-05-29",
     slug: "ostrov-premiera",
     commentsCount: 24,
     sourceUrl: "https://tigerfilms.kz/blog17/",
+    image: "https://picsum.photos/seed/ostrov-premiera/800/450",
   },
   {
     id: "n4",
@@ -818,6 +821,7 @@ export const newsItems: NewsItem[] = [
     slug: "skaz-o-zayce",
     commentsCount: 5,
     sourceUrl: "https://tigerfilms.kz/blog16/",
+    image: "https://picsum.photos/seed/skaz-o-zayce/800/450",
   },
   {
     id: "n5",
@@ -834,6 +838,7 @@ export const newsItems: NewsItem[] = [
     slug: "tiger-films-2025",
     commentsCount: 18,
     sourceUrl: "https://tigerfilms.kz/blog15/",
+    image: "https://picsum.photos/seed/tiger-films-2025/800/450",
   },
 ];
 

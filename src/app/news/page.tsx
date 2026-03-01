@@ -6,9 +6,9 @@ import NewsCard from "@/components/NewsCard";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const titles = {
-  ru: { h1: "Новостная хроника", p: "Пресс-релизы, премьеры и события Tiger Films.", back: "Все новости" },
-  kz: { h1: "Жаңалықтар шежіресі", p: "Tiger Films пресс-релиздері, премьералар мен оқиғалар.", back: "Барлық жаңалықтар" },
-  en: { h1: "News", p: "Press releases, premieres and events from Tiger Films.", back: "All news" },
+  ru: { h1: "Последние новости", p: "Пресс-релизы, премьеры и события Tiger Films. Источник: tigerfilms.kz", back: "Все новости" },
+  kz: { h1: "Соңғы жаңалықтар", p: "Tiger Films пресс-релиздері, премьералар мен оқиғалар.", back: "Барлық жаңалықтар" },
+  en: { h1: "Latest News", p: "Press releases, premieres and events from Tiger Films. Source: tigerfilms.kz", back: "All news" },
 };
 
 export default function NewsPage() {
