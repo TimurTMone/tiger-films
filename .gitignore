@@ -32,9 +32,22 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!backend/.env.example
 
 # vercel
 .vercel
+
+# backend python
+backend/.venv/
+backend/__pycache__/
+backend/app/__pycache__/
+backend/app/routers/__pycache__/
+__pycache__/
+*.pyc
+
+# admin
+admin/node_modules/
+admin/.next/
 
 # typescript
 *.tsbuildinfo

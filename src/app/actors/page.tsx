@@ -1,34 +1,9 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ActorCard from "@/components/ActorCard";
-import { Actor, actors, getActorAge } from "@/lib/data";
-
-function filterActors(
-  list: Actor[],
-  search: string,
-  gender: string,
-  city: string,
-  appearance: string
-): Actor[] {
-  const q = search.trim().toLowerCase();
-  return list.filter((a) => {
-    if (q) {
-      const match =
-        a.name.toLowerCase().includes(q) ||
-        a.city.toLowerCase().includes(q) ||
-        (a.languages && a.languages.toLowerCase().includes(q)) ||
-        (a.appearanceType && a.appearanceType.toLowerCase().includes(q)) ||
-        (a.portfolio && a.portfolio.toLowerCase().includes(q)) ||
-        (a.education && a.education.toLowerCase().includes(q));
-      if (!match) return false;
-    }
-    if (gender && a.gender !== gender) return false;
-    if (city && a.city.toLowerCase() !== city.toLowerCase()) return false;
-    if (appearance && a.appearanceType !== appearance) return false;
-    return true;
-  });
-}
+import { Actor, getActorAge } from "@/lib/data";
+import { fetchActors, fetchCities, fetchAppearanceTypes, apiActorToActor } from "@/lib/api";
 
 function ActorProfileModal({
   actor,
@@ -186,19 +161,44 @@ export default function ActorsPage() {
   const [submitted, setSubmitted] = useState(false);
   const [formSection, setFormSection] = useState<"personal" | "appearance" | "skills" | "contact">("personal");
 
-  const filtered = useMemo(
-    () => filterActors(actors, search, gender, city, appearance),
-    [search, gender, city, appearance]
-  );
+  const [actorsList, setActorsList] = useState<Actor[]>([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [cities, setCities] = useState<string[]>([]);
+  const [appearances, setAppearances] = useState<string[]>([]);
+  const perPage = 24;
 
-  const cities = useMemo(
-    () => Array.from(new Set(actors.map((a) => a.city).filter(Boolean))).sort(),
-    []
-  );
-  const appearances = useMemo(
-    () => Array.from(new Set(actors.map((a) => a.appearanceType).filter(Boolean))).sort(),
-    []
-  );
+  // Load cities & appearance types once
+  useEffect(() => {
+    fetchCities().then((data) => setCities(data.map((d) => d.city).filter(Boolean))).catch(() => {});
+    fetchAppearanceTypes().then((data) => setAppearances(data.map((d) => d.type).filter(Boolean))).catch(() => {});
+  }, []);
+
+  // Fetch actors on filter/page change
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => {
+      fetchActors({
+        page,
+        per_page: perPage,
+        search: search || undefined,
+        gender: gender || undefined,
+        city: city || undefined,
+        appearance_type: appearance || undefined,
+      })
+        .then((res) => {
+          setActorsList(res.actors.map(apiActorToActor) as Actor[]);
+          setTotal(res.total);
+        })
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    }, 300); // debounce
+    return () => clearTimeout(timer);
+  }, [page, search, gender, city, appearance]);
+
+  const filtered = actorsList;
+  const totalPages = Math.ceil(total / perPage);
 
   const scrollToForm = useCallback(() => {
     document.getElementById("actor-form")?.scrollIntoView({ behavior: "smooth" });
@@ -228,7 +228,7 @@ export default function ActorsPage() {
               type="search"
               placeholder="Имя, город, языки, тип внешности..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
               className="w-full rounded-xl border border-[var(--border)] bg-[var(--card)] py-3 px-4 text-white placeholder-zinc-500 focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber"
             />
           </div>
@@ -236,7 +236,7 @@ export default function ActorsPage() {
             <select
               aria-label="Пол"
               value={gender}
-              onChange={(e) => setGender(e.target.value)}
+              onChange={(e) => { setGender(e.target.value); setPage(1); }}
               className="rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-2.5 text-sm text-white focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber"
             >
               <option value="">Пол</option>
@@ -246,7 +246,7 @@ export default function ActorsPage() {
             <select
               aria-label="Город"
               value={city}
-              onChange={(e) => setCity(e.target.value)}
+              onChange={(e) => { setCity(e.target.value); setPage(1); }}
               className="rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-2.5 text-sm text-white focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber"
             >
               <option value="">Город</option>
@@ -259,7 +259,7 @@ export default function ActorsPage() {
             <select
               aria-label="Тип внешности"
               value={appearance}
-              onChange={(e) => setAppearance(e.target.value)}
+              onChange={(e) => { setAppearance(e.target.value); setPage(1); }}
               className="rounded-lg border border-[var(--border)] bg-[var(--card)] px-3 py-2.5 text-sm text-white focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber"
             >
               <option value="">Внешность</option>
@@ -272,13 +272,17 @@ export default function ActorsPage() {
           </div>
         </div>
         <p className="mt-2 text-sm text-zinc-500">
-          Найдено: {filtered.length} {filtered.length === 1 ? "актёр" : "актёров"}
+          {loading ? "Загрузка..." : `Найдено: ${total} актёров`}
         </p>
       </section>
 
       {/* Grid: 3 per row */}
       <section className="mb-16">
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] py-16 text-center">
+            <p className="text-zinc-400">Загрузка актёров...</p>
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] py-16 text-center">
             <p className="text-zinc-500">По вашему запросу никого не найдено.</p>
             <p className="mt-2 text-sm text-zinc-600">
@@ -290,15 +294,41 @@ export default function ActorsPage() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((actor) => (
-              <ActorCard
-                key={actor.id}
-                actor={actor}
-                onSelect={setSelectedActor}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((actor) => (
+                <ActorCard
+                  key={actor.id}
+                  actor={actor}
+                  onSelect={setSelectedActor}
+                />
+              ))}
+            </div>
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-8 flex items-center justify-center gap-4">
+                <button
+                  type="button"
+                  disabled={page <= 1}
+                  onClick={() => setPage(page - 1)}
+                  className="rounded-lg border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-sm text-zinc-300 transition hover:bg-[var(--card-hover)] disabled:opacity-30"
+                >
+                  Назад
+                </button>
+                <span className="text-sm text-zinc-500">
+                  Стр. {page} из {totalPages}
+                </span>
+                <button
+                  type="button"
+                  disabled={page >= totalPages}
+                  onClick={() => setPage(page + 1)}
+                  className="rounded-lg border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-sm text-zinc-300 transition hover:bg-[var(--card-hover)] disabled:opacity-30"
+                >
+                  Вперёд
+                </button>
+              </div>
+            )}
+          </>
         )}
       </section>
 
@@ -467,8 +497,62 @@ function ActorSubmissionForm({
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://tiger-films-api.onrender.com";
+    try {
+      await fetch(`${API_URL}/api/actors`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.fullName,
+          gender: form.gender || "male",
+          birth_date: form.birthDate || null,
+          country: form.country || "Казахстан",
+          city: form.city || null,
+          previous_tiger_films: form.previousTigerFilms || null,
+          education: form.education || null,
+          additional_education: form.additionalEducation || null,
+          current_status: form.currentStatus || null,
+          height_cm: form.heightCm ? parseInt(form.heightCm) : null,
+          weight_kg: form.weightKg ? parseInt(form.weightKg) : null,
+          clothing_size: form.clothingSize || null,
+          shoe_size: form.shoeSize || null,
+          eye_color: form.eyeColor || null,
+          hair_color: form.hairColor || null,
+          appearance_type: form.appearanceType || null,
+          appearance_notes: form.appearanceNotes || null,
+          chronic_conditions: form.chronicConditions || null,
+          allergies: form.allergies || null,
+          passport_visa: form.passportVisa || null,
+          languages: form.languages || null,
+          vocal_timbre: form.vocalTimbre || null,
+          choreography: form.choreography || null,
+          musical_instruments: form.musicalInstruments || null,
+          sports: form.sports || null,
+          other_skills: form.otherSkills || null,
+          driving_license: form.drivingLicense || null,
+          portfolio: form.portfolio || null,
+          theater: form.theater || null,
+          tv_radio: form.tvRadio || null,
+          agent: form.agent || null,
+          phone: form.phone || null,
+          phone_reserve: form.phoneReserve || null,
+          email: form.email || null,
+          social_links: form.socialLinks || null,
+          video_showreel: form.videoShowreel || null,
+          film_profiles: form.filmProfiles || null,
+          photo_profile: form.photoProfile || null,
+          photo_full_face: form.photoFullFace || null,
+          photo_full_body: form.photoFullBody || null,
+          stunt_double: form.stuntDouble || null,
+          pacemaker: form.pacemaker === "yes",
+          fractures_or_head_injury: form.fracturesOrHeadInjury || null,
+          can_swim: form.canSwim === "yes",
+          religious_rituals: form.religiousRituals || null,
+        }),
+      });
+    } catch {}
     onSubmitted();
   };
 

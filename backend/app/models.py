@@ -1,0 +1,96 @@
+from sqlalchemy import Column, Integer, String, Boolean, Text, DateTime, func
+
+from .database import Base
+
+
+class Actor(Base):
+    __tablename__ = "tf_actors"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(Text, nullable=False, index=True)
+    gender = Column(Text, nullable=False)
+    birth_date = Column(Text)
+    country = Column(Text, default="Казахстан")
+    city = Column(Text, index=True)
+    previous_tiger_films = Column(Text)
+    education = Column(Text)
+    additional_education = Column(Text)
+    current_status = Column(Text)
+    height_cm = Column(Integer)
+    weight_kg = Column(Integer)
+    clothing_size = Column(Text)
+    shoe_size = Column(Text)
+    eye_color = Column(Text)
+    hair_color = Column(Text)
+    appearance_type = Column(Text, index=True)
+    appearance_notes = Column(Text)
+    chronic_conditions = Column(Text)
+    allergies = Column(Text)
+    passport_visa = Column(Text)
+    languages = Column(Text)
+    vocal_timbre = Column(Text)
+    choreography = Column(Text)
+    musical_instruments = Column(Text)
+    sports = Column(Text)
+    other_skills = Column(Text)
+    driving_license = Column(Text)
+    portfolio = Column(Text)
+    theater = Column(Text)
+    tv_radio = Column(Text)
+    agent = Column(Text)
+    phone = Column(Text)
+    phone_reserve = Column(Text)
+    email = Column(Text)
+    social_links = Column(Text)
+    video_showreel = Column(Text)
+    film_profiles = Column(Text)
+    photo_profile = Column(Text)
+    photo_full_face = Column(Text)
+    photo_full_body = Column(Text)
+    stunt_double = Column(Text)
+    pacemaker = Column(Boolean, default=False)
+    fractures_or_head_injury = Column(Text)
+    can_swim = Column(Boolean, default=False)
+    religious_rituals = Column(Text)
+    producer_notes = Column(Text)
+    created_at = Column(DateTime, server_default=func.now())
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+
+
+class Film(Base):
+    __tablename__ = "tf_films"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title_ru = Column(Text, nullable=False)
+    title_kz = Column(Text)
+    release_date = Column(Text)
+    genre = Column(Text)
+    duration = Column(Text)
+    age_rating = Column(Text)
+    language = Column(Text)
+    poster = Column(Text)
+    youtube_video_id = Column(Text)
+    is_new = Column(Boolean, default=False)
+    description = Column(Text)
+    created_at = Column(DateTime, server_default=func.now())
+
+
+class News(Base):
+    __tablename__ = "tf_news"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title_ru = Column(Text, nullable=False)
+    title_kz = Column(Text)
+    title_en = Column(Text)
+    excerpt_ru = Column(Text)
+    excerpt_kz = Column(Text)
+    excerpt_en = Column(Text)
+    body_ru = Column(Text)
+    body_kz = Column(Text)
+    body_en = Column(Text)
+    date = Column(Text)
+    image = Column(Text)
+    slug = Column(Text, unique=True, index=True)
+    comments_count = Column(Integer, default=0)
+    source_url = Column(Text)
+    created_at = Column(DateTime, server_default=func.now())
